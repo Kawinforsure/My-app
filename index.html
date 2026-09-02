@@ -31,8 +31,7 @@
   </div>
 
   <script>
-    // REPLACE THIS URL with your live Render backend URL!
-    const BACKEND_URL = 'https://my-ai-humanizer-api.onrender.com/api/humanize-advanced';
+    const BACKEND_URL = 'https://my-ai-humanizer.onrender.com/api/humanize-advanced';
 
     async function processText() {
       const input = document.getElementById('aiInput').value;
@@ -52,18 +51,16 @@
         const res = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: input, intensity: 'high' })
+          body: JSON.stringify({ text: input })
         });
-        
         const data = await res.json();
-        
         if (data.humanized_text) {
           output.value = data.humanized_text;
         } else {
-          alert('Error processing text. Check your backend status.');
+          alert('Error: ' + (data.error || 'Failed to process text'));
         }
       } catch (err) {
-        alert('Could not connect to backend server. Make sure your Render URL is correct.');
+        alert('Network error connecting to backend service.');
       } finally {
         btn.innerText = 'Humanize Text';
         btn.disabled = false;
